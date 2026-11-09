@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Pontipole, la suite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#120d12; --bg2:#1c151c; --card:#241b24; --line:#3a2e3a;
+  --text:#f5ede9; --muted:#c9b9b4; --accent:#e9b8a3; --accent-ink:#1a1018;
+  --ok:#9fd8b0; --warn:#f3c87a; --stop:#f2a0a0;
+  --radius:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:600;line-height:1.2;margin:0 0 .5em}
+h1{font-size:clamp(2rem,7vw,3.2rem)}
+h2{font-size:clamp(1.5rem,5vw,2.1rem)}
+h3{font-size:1.15rem}
+p{margin:0 0 .9em}
+a{color:var(--accent)}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+header.hero{padding:56px 0 32px;background:radial-gradient(120% 80% at 50% 0%,#3a2333 0%,var(--bg) 70%)}
+.kicker{letter-spacing:.18em;text-transform:uppercase;font-size:.75rem;color:var(--accent);font-weight:600}
+.lead{font-size:1.1rem;color:var(--muted)}
+nav.chips{position:sticky;top:0;z-index:5;background:rgba(18,13,18,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav.chips .wrap{display:flex;gap:8px;overflow-x:auto;padding:10px 16px;scrollbar-width:none}
+nav.chips a{flex:none;text-decoration:none;color:var(--text);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.88rem;white-space:nowrap}
+nav.chips a.cta{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+section{padding:40px 0;border-bottom:1px solid var(--line)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin:0 0 14px}
+.grid{display:grid;gap:14px}
+@media(min-width:620px){.grid.two{grid-template-columns:1fr 1fr}}
+.tag{display:inline-block;font-size:.75rem;font-weight:600;border-radius:999px;padding:2px 10px;margin:0 6px 6px 0;background:#2f2430;color:var(--accent)}
+.tag.ok{color:var(--ok)} .tag.warn{color:var(--warn)} .tag.stop{color:var(--stop)}
+.big-btn{display:block;width:100%;text-align:center;background:var(--accent);color:var(--accent-ink);font-weight:600;font-size:1.05rem;border:0;border-radius:14px;padding:16px;text-decoration:none;cursor:pointer}
+.big-btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.steps3{counter-reset:s;list-style:none;padding:0;margin:0}
+.steps3 li{counter-increment:s;position:relative;padding:0 0 14px 44px}
+.steps3 li::before{content:counter(s);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:600;display:grid;place-items:center}
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:0 0 10px;padding:0 16px}
+details summary{cursor:pointer;padding:14px 0;font-weight:600;list-style:none}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"+";display:inline-block;width:1.2em;color:var(--accent)}
+details[open] summary::before{content:"–"}
+details > div{padding:0 0 14px;color:var(--muted)}
+.alert{border-left:4px solid var(--warn);background:var(--bg2);padding:14px 16px;border-radius:0 12px 12px 0;margin:0 0 12px}
+.alert.stop{border-color:var(--stop)} .alert.ok{border-color:var(--ok)}
+.alert b{color:var(--text)}
+.muted{color:var(--muted)}
+.small{font-size:.86rem}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--accent);font-weight:600}
+/* questionnaire */
+#quiz{background:var(--bg2);border:1px solid var(--line);border-radius:22px;padding:20px}
+.progress{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:6px 0 18px}
+.progress span{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.q{margin:0 0 22px}
+.q label.title{display:block;font-weight:600;margin:0 0 4px}
+.q .help{font-size:.86rem;color:var(--muted);margin:0 0 8px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:12px;padding:10px 14px;font:inherit;cursor:pointer}
+.opt[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+.opt.idk{border-style:dashed;color:var(--muted)}
+.opt.idk[aria-pressed=true]{color:var(--accent-ink)}
+textarea,input[type=text],input[type=number]{width:100%;background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit}
+textarea{min-height:90px;resize:vertical}
+.nav-q{display:flex;gap:10px;margin-top:8px}
+.nav-q button{flex:1}
+.saved{font-size:.85rem;color:var(--ok);min-height:1.2em;margin-top:10px;text-align:center}
+.hp{position:absolute;left:-9999px}
+footer{padding:30px 0 60px;color:var(--muted);font-size:.85rem}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Pontipole · plan privé</div>
+    <h1>Manon, voilà la suite de Pontipole.</h1>
+    <p class="lead">Ta propre marque de tenues de pole, fabriquée dans les ateliers qui habillent les marques brésiliennes, sans intermédiaire. Tu gardes ce que tu fais de mieux (le style, la communauté, le contact), et Alexis s'occupe de toute la mécanique.</p>
+    <p class="muted small">Lecture : 6 minutes. Tu peux t'arrêter quand tu veux, rien ne se perd.</p>
+    <a class="big-btn" href="#questions">Répondre à mes questions (5 min)</a>
+  </div>
+</header>
+
+<nav class="chips" aria-label="Sections">
+  <div class="wrap">
+    <a href="#resume">En bref</a>
+    <a href="#qui">Qui fait quoi</a>
+    <a href="#matieres">Les matières</a>
+    <a href="#ateliers">Les ateliers</a>
+    <a href="#argent">L'argent</a>
+    <a href="#regles">Les règles</a>
+    <a href="#peurs">Tes questions</a>
+    <a href="#alertes">Attention</a>
+    <a class="cta" href="#questions">Répondre</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<section id="resume">
+  <h2>En 30 secondes</h2>
+  <ol class="steps3">
+    <li><b>Une vraie marque.</b> Pontipole devient une marque déposée, avec un vrai site, de vraies étiquettes et de vraies photos. Plus seulement des DM.</li>
+    <li><b>Direct à l'atelier.</b> On achète au Brésil (et au Portugal pour l'Europe) directement chez les fabricants. L'argent qui partait chez l'intermédiaire reste chez toi.</li>
+    <li><b>Tu restes la créatrice.</b> Tu choisis les modèles, les couleurs, tu portes la marque devant tes élèves. Le site, les fournisseurs, la douane et la paperasse : Alexis.</li>
+  </ol>
+  <div class="alert ok"><b>Ce que ça ne change pas :</b> tu gardes ton entreprise telle qu'elle est. Pas de nouvelle société, pas de compta compliquée pour démarrer.</div>
+</section>
+
+<section id="qui">
+  <h2>Qui fait quoi</h2>
+  <div class="grid two">
+    <div class="card">
+      <h3>Toi, depuis ton téléphone</h3>
+      <p class="muted">Une seule appli (WooCommerce) qui sonne à chaque commande, comme une notif Insta.</p>
+      <ul>
+        <li>Choisir les modèles et les couleurs</li>
+        <li>Porter et montrer les tenues (Insta, cours, galas)</li>
+        <li>Remettre les commandes en main propre ou au cours</li>
+        <li>Répondre aux clientes</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Alexis, en coulisses</h3>
+      <ul>
+        <li>Le site complet, le paiement par carte, les pages légales</li>
+        <li>Trouver et négocier avec les ateliers</li>
+        <li>Douane, octroi de mer, papiers d'import</li>
+        <li>Pubs, catalogue Instagram, photos produit</li>
+        <li>Les chiffres : ce qui se vend, ce qu'il faut recommander</li>
+      </ul>
+    </div>
+  </div>
+  <p class="muted small">Les clientes de Guyane : retrait au cours ou livraison à Cayenne, Rémire, Matoury, Kourou. Antilles et métropole : envoi par colis. Les clientes de métropole peuvent être livrées directement depuis l'atelier en Europe, sans passer par toi.</p>
+</section>
+
+<section id="matieres">
+  <h2>Les matières qu'on peut te proposer</h2>
+  <p class="muted">Toutes sont utilisées par les marques de pole haut de gamme. Coche celles que tu aimes dans le questionnaire, tu pourras demander des échantillons.</p>
+  <div class="grid two">
+    <div class="card"><span class="tag">La référence</span><h3>Polyamide + élasthanne</h3><p class="muted">Le « suplex » brésilien. Gainant, seconde peau, sèche vite, mat ou satiné. C'est la base de toute bonne tenue de pole.</p></div>
+    <div class="card"><span class="tag">Premium</span><h3>Velours stretch</h3><p class="muted">Rendu luxe, très photogénique. Parfait pour une collection capsule ou les galas.</p></div>
+    <div class="card"><span class="tag">Scène</span><h3>Ciré / effet mouillé</h3><p class="muted">Brillant, spectaculaire sous les lumières. Pour les shows, EVJF, shootings.</p></div>
+    <div class="card"><span class="tag">Détail</span><h3>Résille et tulle stretch</h3><p class="muted">En superposition ou en découpes. Ajoute du style sans couvrir les zones de grip.</p></div>
+    <div class="card"><span class="tag">Exclusif</span><h3>Polyester + élasthanne imprimé</h3><p class="muted">Permet d'imprimer tes propres motifs (sublimation). Des modèles que personne d'autre n'a, même en petite série.</p></div>
+    <div class="card"><span class="tag">Éthique</span><h3>Polyamide recyclé</h3><p class="muted">Fil issu de filets de pêche et déchets recyclés (ex. ECONYL). Argument fort pour une marque haut de gamme.</p></div>
+  </div>
+  <div class="alert"><b>Ce qu'on exigera de l'atelier :</b> aucun silicone ni revêtement sur les zones de contact avec la barre (la peau doit accrocher), coutures plates qui ne frottent pas, tissu qui ne devient pas transparent quand on l'étire.</div>
+</section>
+
+<section id="ateliers">
+  <h2>Où fabriquer</h2>
+  <table>
+    <thead><tr><th>Origine</th><th>Pour quoi</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr><td><b>Brésil</b></td><td>Le cœur de la collection. Le Brésil est la référence mondiale du maillot et du fitness. « Made in Brazil » est un argument de vente.</td><td><span class="tag ok">Oui</span></td></tr>
+      <tr><td><b>Portugal</b></td><td>Textile européen très haut de gamme. Idéal pour livrer les clientes de métropole sans passer par la Guyane.</td><td><span class="tag ok">Oui, phase 2</span></td></tr>
+      <tr><td><b>Espagne</b></td><td>Possible, mais le Portugal fait mieux sur ce type de produit.</td><td><span class="tag warn">Non prioritaire</span></td></tr>
+      <tr><td><b>Chine</b></td><td>Seulement les accessoires (genouillères, sacs, grip). Pas les tenues : ça casserait l'image premium.</td><td><span class="tag stop">Accessoires seulement</span></td></tr>
+    </tbody>
+  </table>
+  <h3 style="margin-top:24px">Première sélection d'ateliers (à contacter par Alexis)</h3>
+  <div class="card"><span class="tag">Brésil · Rio</span><h3>Fashion Bikini</h3><p class="muted">Maillots et tenues de pole. Vend en gros, propose votre propre étiquette (private label) et expédie à l'étranger.</p></div>
+  <div class="card"><span class="tag">Brésil · Porto Alegre</span><h3>Brazilian Private Label</h3><p class="muted">Fitness et plage en marque blanche, petites quantités annoncées, exporte vers l'Europe.</p></div>
+  <div class="card"><span class="tag">Portugal</span><h3>Athleisure Basics · Friendly Factories</h3><p class="muted">Ateliers fitness et maillot qui acceptent les petites séries. Minimums à confirmer directement.</p></div>
+  <p class="muted small">Marques brésiliennes de pole à étudier (et à qui demander leurs ateliers ou un prix de gros) : Sol Polewear, NOK (Curitiba), Brasa Lab, Olivia Veste, Isla Pole Wear.</p>
+</section>
+
+<section id="argent">
+  <h2>L'argent, simplement</h2>
+  <div class="card">
+    <h3>Pourquoi ça rapporte plus qu'avant</h3>
+    <p class="muted">Avant, l'intermédiaire achetait, transportait et prenait sa part. Maintenant on achète directement à l'atelier. Le prix de la tenue reste celui d'une marque haut de gamme. C'est ce qu'il y a <i>entre</i> l'atelier et la cliente qui change, et c'est ta marge.</p>
+  </div>
+  <div class="card">
+    <h3>Ce que coûte l'arrivée en Guyane</h3>
+    <ul class="muted">
+      <li><b>Octroi de mer :</b> 12 % + 3 % régional sur les vêtements de sport (tarif officiel de la Collectivité 2026). C'est la même chose pour tout le monde, Decathlon compris.</li>
+      <li><b>Pas de TVA</b> en Guyane.</li>
+      <li><b>Douane depuis le Brésil :</b> elle baisse chaque année depuis l'accord Europe–Mercosur du 1<sup>er</sup> mai 2026. Depuis le Portugal : aucun droit de douane.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Comment Alexis est payé</h3>
+    <p class="muted">Par une facture de son entreprise (Ponti'Com) : un petit montant fixe pour le site + un pourcentage des ventes en ligne. Mois calme = il touche peu. Gros mois = il touche plus. Tout est écrit dans un contrat simple, tu vois chaque chiffre.</p>
+  </div>
+</section>
+
+<section id="regles">
+  <h2>Les règles, vérifiées</h2>
+
+  <h3>Enseigner la pole : faut-il un diplôme ?</h3>
+  <div class="alert">
+    <p><b>Il n'existe aucun diplôme d'État de pole dance.</b> Personne en France ne peut en avoir un.</p>
+    <p><b>Mais :</b> la loi dit qu'enseigner un <i>sport</i> contre de l'argent demande une qualification reconnue (Code du sport, art. L212-1). La pole est-elle un sport ? C'est flou : elle dépend de la Fédération française de danse, et en mars 2026 un député a rappelé à l'Assemblée qu'elle n'était toujours pas reconnue officiellement comme sport.</p>
+    <p><b>En pratique :</b> la plupart des profs de pole en France sont dans ton cas. Le vrai danger, c'est l'<b>assurance</b> : en cas d'accident d'une élève, l'assureur peut demander ta qualification.</p>
+    <p><b>Pour être tranquille :</b> 1) vérifier que ton assurance RC pro couvre bien les cours de pole ; 2) obtenir une réponse écrite du service jeunesse et sports de Guyane (Alexis rédige le mail) ; 3) plus tard, une certification (il existe par exemple « Enseigner la pole dance », enregistrée officiellement, ou un BPJEPS fitness).</p>
+  </div>
+
+  <h3>Vendre des tenues</h3>
+  <div class="card">
+    <ol class="muted">
+      <li>Ajouter « vente de tenues » à ton entreprise (en ligne, gratuit, Alexis le prépare).</li>
+      <li>Déposer la marque Pontipole à l'INPI (elle n'est pas protégée aujourd'hui).</li>
+      <li>Un numéro EORI pour importer (gratuit, douane).</li>
+      <li>Étiquettes en français : composition, taille, entretien.</li>
+      <li>Ton nom et ton adresse pro sur le produit ou l'emballage (tu seras « l'importatrice »).</li>
+      <li>Une assurance qui couvre aussi la vente de produits.</li>
+      <li>Sur le site : conditions de vente, retour sous 14 jours (Alexis s'en occupe).</li>
+    </ol>
+  </div>
+</section>
+
+<section id="peurs">
+  <h2>Les questions que tu n'oses pas poser</h2>
+  <p class="muted">On les a posées pour toi.</p>
+
+  <details><summary>« Le dropshipping, c'est pas une arnaque de gens sur TikTok ? »</summary><div>Le dropshipping « TikTok », c'est revendre des produits chinois anonymes trouvés sur AliExpress. Ici, c'est l'inverse : <b>ta</b> marque, fabriquée par un atelier choisi, avec <b>ton</b> étiquette. Les grandes marques font exactement pareil : elles ne cousent pas elles-mêmes. Et on ne l'utilisera que pour les clientes de métropole. En Guyane, tu as ton stock en main.</div></details>
+
+  <details><summary>« Si c'est moins cher que ce que je payais avant, c'est forcément moins bien ? »</summary><div>Non. Le prix que tu payais avant contenait la part de l'intermédiaire, pas plus de qualité. On ira chez les ateliers qui fabriquent pour les marques premium, et on commandera <b>des échantillons d'abord</b>. Si la qualité ne te plaît pas, on ne commande pas. Et on ne vendra pas « pas cher » : on vend au prix d'une marque haut de gamme.</div></details>
+
+  <details><summary>« J'ai déjà vendu avant sans être déclarée vente : je vais avoir des problèmes ? »</summary><div>On régularise maintenant, proprement, pour la suite. Ajouter une activité à ton entreprise est une démarche banale et gratuite. Le but est d'être carrée à partir d'aujourd'hui.</div></details>
+
+  <details><summary>« Un colis se perd ou arrive abîmé : c'est moi qui paie ? »</summary><div>Les envois seront assurés et suivis. En Guyane, tu remets toi-même la plupart des commandes. Le risque est minuscule et il est prévu dans le prix.</div></details>
+
+  <details><summary>« Une cliente tombe de la barre avec une tenue Pontipole : c'est ma faute ? »</summary><div>Une tenue n'est pas un équipement de sécurité. Mais on prendra une assurance qui couvre la vente de produits, et la fiche de chaque tenue dira « pas de crème ni d'huile, grip sur peau nue ». C'est ce que font toutes les marques.</div></details>
+
+  <details><summary>« Je dois parler portugais avec les ateliers ? »</summary><div>Non. Alexis gère les échanges (et la traduction). Tu reçois juste les photos et les échantillons pour dire oui ou non.</div></details>
+
+  <details><summary>« Et si personne n'achète ? Je me retrouve avec 200 bodys chez moi ? »</summary><div>On démarre petit : quelques modèles, quelques tailles, et des <b>précommandes</b> auprès de tes élèves avant de commander. Tu as déjà 4 600 abonnées sur ton compte prof : on vend d'abord à elles.</div></details>
+
+  <details><summary>« Je vais devoir faire une compta de grosse entreprise ? »</summary><div>Non. Tu gardes ton entreprise actuelle. Tu continues de déclarer ton chiffre comme aujourd'hui, juste avec une ligne « vente » en plus. Alexis te prépare un tableau tout fait.</div></details>
+
+  <details><summary>« Si je gagne trop, je perds mon statut ? »</summary><div>Il faudrait dépasser plus de 80 000 € de cours par an, ou environ 200 000 € au total. Si on y arrive, c'est une excellente nouvelle, et on changera de statut à ce moment-là.</div></details>
+
+  <details><summary>« Mon ex-associé peut me copier ou m'attaquer ? »</summary><div>C'est pour ça qu'on dépose la marque Pontipole tout de suite : une fois déposée, elle est à toi. Dis-nous juste dans le questionnaire si vous aviez signé un papier ensemble.</div></details>
+
+  <details><summary>« Le site plante un dimanche soir et je ne sais rien faire ? »</summary><div>Tu n'as rien à réparer, jamais. Alexis fait ça tous les jours pour ses clients. Toi, tu as une appli qui affiche les commandes, c'est tout.</div></details>
+
+  <details><summary>« Et si mon frère se sert plus que prévu ? »</summary><div>Tout est écrit : son pourcentage, son fixe. Tu vois chaque vente dans ton appli, et l'argent arrive sur <b>ton</b> compte. C'est lui qui te facture, jamais l'inverse.</div></details>
+
+  <details><summary>« Je n'ai pas de diplôme de pole : je risque la prison ? »</summary><div>Aucun diplôme d'État de pole n'existe, donc personne ne peut te reprocher de ne pas avoir « le » diplôme. Le flou juridique existe (voir « Les règles »). On le règle avec une assurance bien choisie et une réponse écrite de l'administration.</div></details>
+</section>
+
+<section id="alertes">
+  <h2>Ce qu'on a repéré (à régler ensemble)</h2>
+  <div class="alert stop"><b>Ta marque n'est pas protégée.</b> « Pontipole » n'est déposée nulle part. N'importe qui (y compris ton ex-associé) pourrait la déposer avant toi.</div>
+  <div class="alert stop"><b>Ton entreprise est déclarée uniquement pour les cours de danse.</b> Vendre des tenues demande d'ajouter cette activité. Simple, gratuit, à faire avant le lancement.</div>
+  <div class="alert"><b>Assurance :</b> vérifier qu'elle couvre les cours de pole <i>et</i> la vente de produits.</div>
+  <div class="alert"><b>« Made in Brazil » :</b> on ne l'écrit que sur ce qui est vraiment fabriqué au Brésil.</div>
+  <div class="alert"><b>Garde toutes tes factures d'achat.</b> La douane et l'octroi de mer se calculent dessus.</div>
+  <div class="alert"><b>Les DM ne sont pas des factures.</b> Chaque vente doit avoir une trace (le site le fera tout seul).</div>
+</section>
+
+<section id="questions">
+  <h2>À toi de jouer</h2>
+  <p class="muted">Des questions sur toi, rien à chercher. Les plus simples d'abord. Réponds « je sais pas » sans gêne : c'est une vraie réponse. Tout est enregistré à chaque étape, tu peux revenir plus tard.</p>
+  <div id="quiz" aria-live="polite">
+    <div class="small muted" id="stepLabel"></div>
+    <div class="progress"><span id="bar"></span></div>
+    <form id="form" autocomplete="off" onsubmit="return false">
+      <input class="hp" type="text" name="website" tabindex="-1" aria-hidden="true">
+      <h3 id="stepTitle"></h3>
+      <div id="stepBody"></div>
+      <div class="nav-q">
+        <button type="button" class="big-btn ghost" id="prev">Retour</button>
+        <button type="button" class="big-btn" id="next">Suivant</button>
+      </div>
+      <div class="saved" id="saved"></div>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">Document privé préparé pour Manon. Pontipole · Cayenne, Guyane.</div>
+</footer>
+
+<script>
+(function(){
+  var SUPA_URL = "https://afhtitjcwnlmjqkkmtmr.supabase.co/rest/v1/pontipole_reponses";
+  var SUPA_KEY = "sb_publishable_E9YJJOGvkyVJloqA_AaNaw_uoR2tPXe";
+  var IDK = "Je sais pas";
+
+  var STEPS = [
+    {id:"eleves", title:"Toi et tes élèves", qs:[
+      {id:"nb_eleves", t:"choice", l:"Combien d'élèves différentes tu vois par mois, à peu près ?", o:["Moins de 10","10 à 30","30 à 60","Plus de 60"]},
+      {id:"type_cours", t:"multi", l:"Tu donnes quels types de cours ?", o:["Cours individuels","Cours collectifs","EVJF","Galas / spectacles","Shootings / projets artistiques"]},
+      {id:"lieu", t:"choice", l:"Tu donnes tes cours où ?", o:["Chez moi","Dans une salle que je loue","Dans le studio de quelqu'un d'autre","Ça dépend"]},
+      {id:"evjf_mois", t:"choice", l:"Combien d'EVJF par mois, en moyenne ?", o:["Aucun","1 ou 2","3 à 5","Plus de 5"]},
+      {id:"eleves_demandent", t:"choice", l:"Tes élèves te demandent où acheter leurs tenues ?", o:["Tout le temps","Parfois","Jamais"]}
+    ]},
+    {id:"avant", title:"Les tenues d'avant", qs:[
+      {id:"nb_vendues", t:"choice", l:"Combien de tenues vous avez vendues en tout, avec l'ancien associé ?", o:["Moins de 20","20 à 50","50 à 150","Plus de 150"]},
+      {id:"prix_vente", t:"text", l:"Tu les vendais à quel prix, en général ?", h:"Ex. : body 65 €, short 35 €"},
+      {id:"top_modeles", t:"multi", l:"Qu'est-ce qui partait le mieux ?", o:["Bodys","Ensembles brassière + short","Shorts seuls","Brassières seules","Leggings / pantalons","Accessoires"]},
+      {id:"tailles", t:"multi", l:"Les tailles les plus demandées ?", o:["XS","S","M","L","XL et plus"]},
+      {id:"plaintes", t:"text", l:"Ce qui n'allait pas (qualité, délais, tailles, prix…) ?", h:"Une phrase suffit."},
+      {id:"stock_restant", t:"choice", l:"Il te reste du stock chez toi ?", o:["Oui","Non"]}
+    ]},
+    {id:"gout", title:"Ton style", qs:[
+      {id:"matieres", t:"multi", l:"Les matières qui te plaisent (voir plus haut) :", o:["Polyamide + élasthanne","Velours stretch","Ciré / effet mouillé","Résille / tulle","Imprimé exclusif","Polyamide recyclé"]},
+      {id:"style", t:"multi", l:"L'image de la marque, pour toi :", o:["Sexy / glamour","Sport / technique","Artistique / scène","Tropical / Guyane","Minimaliste / luxe"]},
+      {id:"couleurs", t:"text", l:"Tes couleurs ou motifs préférés ?"},
+      {id:"marques_admirees", t:"text", l:"Des comptes Insta de marques que tu trouves trop belles ?", h:"Colle les noms, même en vrac."},
+      {id:"prix_ideal", t:"choice", l:"Un body Pontipole, tu le vendrais à combien ?", o:["40 à 60 €","60 à 80 €","80 à 100 €","Plus de 100 €"]}
+    ]},
+    {id:"ex_associe", title:"L'ancien associé", qs:[
+      {id:"papier_signe", t:"choice", l:"Vous aviez signé un papier ensemble (contrat, accord) ?", o:["Oui","Non"]},
+      {id:"contacts_fournisseurs", t:"choice", l:"Tu as les contacts des fournisseurs brésiliens ?", o:["Oui","Non","Je peux les demander"]},
+      {id:"fin_raison", t:"text", l:"Pourquoi ça s'est arrêté, en une phrase ?", h:"Facultatif. Ça nous aide à ne pas refaire les mêmes erreurs."},
+      {id:"nom_pontipole", t:"choice", l:"Le nom « Pontipole », c'est toi qui l'as inventé ?", o:["Oui","Non, c'est lui","Ensemble"]}
+    ]},
+    {id:"organisation", title:"Ta façon de travailler", qs:[
+      {id:"livrer", t:"choice", l:"Remettre toi-même les commandes en Guyane (au cours, en main propre), ça te va ?", o:["Oui","Oui mais pas trop loin","Non"]},
+      {id:"zones", t:"multi", l:"Où tu peux livrer facilement ?", o:["Cayenne","Rémire-Montjoly","Matoury","Kourou","Saint-Laurent"]},
+      {id:"notif", t:"choice", l:"Tu préfères être prévenue d'une commande par :", o:["WhatsApp","Notification d'appli","SMS","Mail"]},
+      {id:"temps", t:"choice", l:"Combien de temps par semaine tu veux y consacrer ?", o:["1 à 2 h","3 à 5 h","Plus de 5 h"]},
+      {id:"paiement_cb", t:"choice", l:"Tu peux encaisser par carte aujourd'hui (terminal type SumUp) ?", o:["Oui","Non"]}
+    ]},
+    {id:"admin", title:"Le côté papiers", intro:"Pas besoin de te connecter nulle part. Réponds de mémoire, « je sais pas » est parfait.", qs:[
+      {id:"declare_urssaf", t:"choice", l:"Tu déclares ton chiffre d'affaires toi-même sur le site autoentrepreneur.urssaf.fr ?", o:["Oui, chaque mois","Oui, tous les 3 mois","Non, c'est un comptable","Non"]},
+      {id:"comptable", t:"choice", l:"Tu as un comptable ?", o:["Oui","Non"]},
+      {id:"assurance", t:"choice", l:"Tu as une assurance pour tes cours (RC pro) ?", o:["Oui","Non"]},
+      {id:"assureur", t:"text", l:"Si oui, chez qui ?", h:"Le nom suffit (ex. : AXA, MAAF, Hiscox…)."},
+      {id:"certif", t:"choice", l:"Tu as fait une formation ou un certificat de pole ou de danse ?", o:["Oui","Non","En cours"]},
+      {id:"certif_nom", t:"text", l:"Si oui, lequel ?"},
+      {id:"compte_pro", t:"choice", l:"Tu as un compte bancaire séparé pour ton activité ?", o:["Oui","Non"]}
+    ]},
+    {id:"projet", title:"Le projet", qs:[
+      {id:"objectif", t:"choice", l:"Pour toi, Pontipole doit devenir :", o:["Un petit complément","Une vraie deuxième source de revenus","Mon activité principale un jour"]},
+      {id:"budget", t:"choice", l:"Pour le premier stock, tu pourrais mettre :", o:["Rien pour l'instant","Moins de 500 €","500 à 1 500 €","Plus de 1 500 €"]},
+      {id:"precommande", t:"choice", l:"Tu serais d'accord pour faire des précommandes auprès de tes élèves avant de commander ?", o:["Oui","Non"]},
+      {id:"part_alexis", t:"choice", l:"Pour la part d'Alexis, tu préfères :", o:["Un fixe + un % des ventes","Seulement un % des ventes","On en parle de vive voix"]},
+      {id:"peurs", t:"text", l:"Ce qui te fait peur ou te bloque, même si ça te paraît bête :"},
+      {id:"envies", t:"text", l:"Et ce qui te ferait rêver avec Pontipole ?"}
+    ]}
+  ];
+
+  var LS = "pontipole_quiz_v1";
+  var state = {sid:null, step:0, data:{}};
+  try { var s = JSON.parse(localStorage.getItem(LS)); if (s && s.sid) state = s; } catch(e){}
+  if (!state.sid) state.sid = "m-" + Date.now().toString(36) + Math.random().toString(36).slice(2,10);
+  function persist(){ try{ localStorage.setItem(LS, JSON.stringify(state)); }catch(e){} }
+
+  var $ = function(id){ return document.getElementById(id); };
+  var body = $("stepBody"), saved = $("saved");
+
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]; }); }
+
+  function render(){
+    if (state.step >= STEPS.length) return done();
+    var st = STEPS[state.step];
+    $("stepLabel").textContent = "Étape " + (state.step+1) + " sur " + STEPS.length;
+    $("bar").style.width = Math.round(state.step / STEPS.length * 100) + "%";
+    $("stepTitle").textContent = st.title;
+    var html = st.intro ? '<p class="help">' + esc(st.intro) + '</p>' : '';
+    st.qs.forEach(function(q){
+      var v = state.data[q.id];
+      html += '<div class="q" data-q="' + q.id + '"><label class="title" for="f_' + q.id + '">' + esc(q.l) + '</label>';
+      if (q.h) html += '<p class="help">' + esc(q.h) + '</p>';
+      if (q.t === "text") {
+        html += '<textarea id="f_' + q.id + '" data-text="' + q.id + '" maxlength="1500">' + esc(v || "") + '</textarea>';
+      } else {
+        var opts = q.o.concat([IDK]);
+        html += '<div class="opts" role="group">';
+        opts.forEach(function(o){
+          var on = q.t === "multi" ? (Array.isArray(v) && v.indexOf(o) > -1) : v === o;
+          html += '<button type="button" class="opt' + (o === IDK ? ' idk' : '') + '" aria-pressed="' + on + '" data-id="' + q.id + '" data-t="' + q.t + '" data-v="' + esc(o) + '">' + esc(o) + '</button>';
+        });
+        html += '</div>';
+      }
+      html += '</div>';
+    });
+    body.innerHTML = html;
+    $("prev").style.visibility = state.step === 0 ? "hidden" : "visible";
+    $("next").textContent = state.step === STEPS.length - 1 ? "Envoyer à Alexis" : "Suivant";
+  }
+
+  body.addEventListener("click", function(e){
+    var b = e.target.closest(".opt"); if (!b) return;
+    var id = b.dataset.id, v = b.dataset.v;
+    if (b.dataset.t === "multi") {
+      var arr = Array.isArray(state.data[id]) ? state.data[id] : [];
+      if (v === IDK) arr = arr.indexOf(IDK) > -1 ? [] : [IDK];
+      else { arr = arr.filter(function(x){ return x !== IDK; }); var i = arr.indexOf(v); if (i > -1) arr.splice(i,1); else arr.push(v); }
+      state.data[id] = arr;
+    } else {
+      state.data[id] = state.data[id] === v ? null : v;
+    }
+    persist(); render();
+  });
+  body.addEventListener("input", function(e){
+    var t = e.target; if (!t.dataset.text) return;
+    state.data[t.dataset.text] = t.value; persist();
+  });
+
+  function send(stepId){
+    if (document.querySelector('input[name=website]').value) return Promise.resolve();
+    var st = STEPS.find(function(s){ return s.id === stepId; }) || {qs:[]};
+    var payload = {};
+    st.qs.forEach(function(q){ if (state.data[q.id] != null && state.data[q.id] !== "") payload[q.id] = state.data[q.id]; });
+    return fetch(SUPA_URL, {
+      method:"POST",
+      headers:{"apikey":SUPA_KEY,"Content-Type":"application/json","Prefer":"return=minimal"},
+      body: JSON.stringify({session_id: state.sid, etape: stepId, reponses: payload, user_agent: navigator.userAgent.slice(0,400)})
+    }).then(function(r){ if(!r.ok) throw new Error(r.status); });
+  }
+
+  $("next").addEventListener("click", function(){
+    if (state.step >= STEPS.length) { state.step = 0; persist(); render(); return; }
+    var st = STEPS[state.step];
+    saved.textContent = "Enregistrement…";
+    send(st.id).then(function(){ saved.textContent = "✓ Enregistré"; })
+      .catch(function(){ saved.textContent = "Pas de réseau ? Tes réponses sont gardées sur ton téléphone, réessaie plus tard."; });
+    state.step++; persist(); render();
+    document.getElementById("questions").scrollIntoView({behavior:"smooth"});
+  });
+  $("prev").addEventListener("click", function(){ if (state.step > 0) { state.step--; persist(); render(); } });
+
+  function done(){
+    $("stepLabel").textContent = "Terminé";
+    $("bar").style.width = "100%";
+    $("stepTitle").textContent = "Merci Manon 🦥";
+    body.innerHTML = '<p>C\'est envoyé à Alexis. Tu as fait le plus dur : le reste, c\'est lui.</p><p class="help">Tu veux changer une réponse ? Reviens en arrière, chaque correction est renvoyée.</p>';
+    $("next").textContent = "Revoir mes réponses";
+    $("prev").style.visibility = "visible";
+    if (!state.finSent) { send("fin").then(function(){ state.finSent = true; persist(); }).catch(function(){}); }
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
